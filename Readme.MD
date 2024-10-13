@@ -20,7 +20,7 @@ I am keeping my Coursera Guided Projects separate from Coursera Courses & Specia
 ### 2. [Create a Financial Statement using Microsoft Excel](https://www.coursera.org/account/accomplishments/verify/USWDEYNATLH7)
 - **Completed on:** 29-June-2023
 - **Offered by:** Coursera Project Network
-- Folder : No Relevant Supporting Documents
+- Folder : 02-Financial-Statement/
 
 ### 3. [Deep Learning for Real Estate Price Prediction](https://www.coursera.org/account/accomplishments/verify/QZ3L2L3L8JT8)
 - **Completed on:** 01-July-2023
