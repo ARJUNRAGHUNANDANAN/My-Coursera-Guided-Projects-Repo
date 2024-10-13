@@ -1,0 +1,415 @@
+# %% [markdown]
+# # TASK #1: UNDERSTAND THE PROBLEM STATEMENT AND BUSINESS CASE
+
+# %% [markdown]
+# ![image.png](attachment:image.png)
+
+# %% [markdown]
+# ![image.png](attachment:image.png)
+
+# %% [markdown]
+# ![image.png](attachment:image.png)
+
+# %% [markdown]
+# # TASK #2: IMPORT LIBRARIES AND DATASETS
+
+# %%
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
+from jupyterthemes import jtplot
+jtplot.style(theme='monokai', context='notebook', ticks=True, grid=False) 
+# setting the style of the notebook to be monokai theme  
+# this line of code is important to ensure that we are able to see the x and y axes clearly
+# If you don't run this code line, you will notice that the xlabel and ylabel on any plot is black on black and it will be hard to see them. 
+
+
+# %%
+house_df = pd.read_csv('realestate_prices.csv', encoding = 'ISO-8859-1')
+
+# %%
+house_df
+
+# %%
+
+
+# %%
+house_df.tail(10)
+
+# %%
+house_df.info()
+
+
+# %% [markdown]
+# **PRACTICE OPPORTUNITY #1 [OPTIONAL]:**
+# - **What is the average house price?**
+# - **What is the price of the cheapest house?**
+# - **What is the average number of bathrooms and bedrooms? round your answer to the lowest value**
+# - **What is the maximum number of bedrooms?**
+
+# %%
+house_df['price'].describe()
+
+# %%
+house_df['price'].min()
+
+# %%
+house_df[['bedrooms','bathrooms']].mean()
+
+# %%
+house_df['bedrooms'].max()
+
+# %% [markdown]
+# # TASK #3: PERFORM DATA VISUALIZATION
+
+# %%
+sns.scatterplot(x ='sqft_living', y = 'price', data = house_df)
+
+# %%
+house_df.hist(bins = 20, figsize = (30,40), color = 'b')
+
+# %%
+f, ax = plt.subplots(figsize = (20, 20))
+sns.heatmap(house_df.corr(), annot = True)
+
+# %%
+house_df_sample = house_df[ ['price', 'bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 'sqft_above', 'sqft_basement', 'yr_built']   ]
+
+# %%
+house_df_sample
+
+# %% [markdown]
+# **PRACTICE OPPORTUNITY #2 [OPTIONAL]:**
+# - **Using Seaborn, plot the pairplot for the features contained in "house_df_sample"**
+# - **Explore the data and perform sanity check**
+
+# %%
+
+sns.pairplot(house_df_sample)
+
+# %% [markdown]
+# # TASK #4: PERFORM DATA CLEANING AND FEATURE ENGINEERING
+
+# %%
+selected_features = ['bedrooms', 'bathrooms', 'sqft_living', 'sqft_lot', 'floors', 'sqft_above', 'sqft_basement']
+
+# %%
+X = house_df[selected_features]
+
+# %%
+X
+
+# %%
+y = house_df['price']
+
+# %%
+y
+
+# %%
+X.shape
+
+# %%
+y.shape
+
+# %%
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+X_scaled = scaler.fit_transform(X)
+
+# %%
+X_scaled
+
+# %%
+X_scaled.shape
+
+# %%
+scaler.data_max_
+
+# %%
+scaler.data_min_
+
+# %%
+y = y.values.reshape(-1,1)
+
+# %%
+y_scaled = scaler.fit_transform(y)
+
+# %%
+y_scaled
+
+# %% [markdown]
+# # TASK #5: TRAIN A DEEP LEARNING MODEL WITH LIMITED NUMBER OF FEATURES
+
+# %%
+from sklearn.model_selection import train_test_split
+X_train , X_test , y_train , y_test= train_test_split(X_scaled, y_scaled, test_size=0.25)
+
+# %%
+X_train.shape
+
+# %%
+X_test.shape
+
+# %%
+import tensorflow.keras
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras.layers import Dense
+
+model = Sequential()
+
+
+# %%
+model.add(Dense(100, input_dim = 7 , activation = 'relu'))
+model.add(Dense(100, activation = 'relu'))
+model.add(Dense(100, activation = 'relu'))
+model.add(Dense(100, activation = 'relu'))
+model.add(Dense(1, activation = 'linear'))
+
+
+# %%
+model.summary()
+
+# %%
+from tensorflow.keras.utils import plot_model
+!pip install pydot
+!pip install graphviz
+plot_model(
+    model,
+    to_file="model.png",
+)
+
+# %%
+import os
+os.getcwd()
+
+
+# %%
+from IPython.display import Image
+Image(filename='model.png')
+
+# %%
+model.compile(optimizer = 'Adam', loss = 'mean_squared_error')
+
+# %%
+epochs_hist = model.fit(X_train, y_train, epochs = 100, batch_size = 50, validation_split = 0.2)
+
+# %% [markdown]
+# **PRACTICE OPPORTUNITY #3 [OPTIONAL]:**
+# - **Change the architecture of the network by adding an additional dense layer with 200 neurons. Use "Relu" as an activation function**
+# - **How many trainable parameters does the new network has?**
+
+# %%
+
+
+# %% [markdown]
+# # TASK #6: EVALUATE TRAINED DEEP LEARNING MODEL PERFORMANCE 
+
+# %%
+epochs_hist.history.keys()
+
+# %%
+plt.plot(epochs_hist.history['loss'])
+plt.plot(epochs_hist.history['val_loss'])
+plt.title('Model Loss Progress During Training')
+plt.xlabel('Epoch')
+plt.ylabel('Training and Validation Loss')
+plt.legend(['Training Loss', 'Validation Loss'])
+
+# %%
+# 'bedrooms','bathrooms','sqft_living','sqft_lot','floors', 'sqft_above', 'sqft_basement'
+X_test_1 = np.array([[ 4, 3, 1960, 5000, 1, 2000, 3000 ]])
+
+scaler_1 = MinMaxScaler()
+X_test_scaled_1 = scaler_1.fit_transform(X_test_1)
+
+y_predict_1 = model.predict(X_test_scaled_1)
+
+y_predict_1 = scaler.inverse_transform(y_predict_1)
+y_predict_1
+
+# %%
+y_predict = model.predict(X_test)
+plt.plot(y_test, y_predict, "^", color = 'r')
+plt.xlabel('Model Predictions')
+plt.ylabel('True Values')
+
+
+# %%
+y_predict_orig = scaler.inverse_transform(y_predict)
+y_test_orig = scaler.inverse_transform(y_test)
+
+
+# %%
+plt.plot(y_test_orig, y_predict_orig, "^", color = 'r')
+plt.xlabel('Model Predictions')
+plt.ylabel('True Values')
+plt.xlim(0, 5000000)
+plt.ylim(0, 3000000)
+
+# %%
+k = X_test.shape[1]
+n = len(X_test)
+n
+
+# %%
+k
+
+# %%
+
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+from math import sqrt
+
+RMSE = float(format(np.sqrt(mean_squared_error(y_test_orig, y_predict_orig)),'.3f'))
+MSE = mean_squared_error(y_test_orig, y_predict_orig)
+MAE = mean_absolute_error(y_test_orig, y_predict_orig)
+r2 = r2_score(y_test_orig, y_predict_orig)
+adj_r2 = 1-(1-r2)*(n-1)/(n-k-1)
+
+print('RMSE =',RMSE, '\nMSE =',MSE, '\nMAE =',MAE, '\nR2 =', r2, '\nAdjusted R2 =', adj_r2) 
+
+
+# %% [markdown]
+# # TASK #7. TRAIN AND EVALUATE A DEEP LEARNING MODEL WITH INCREASED NUMBER OF FEATURES (INDEPENDANT VARIABLES)
+
+# %%
+selected_features = ['bedrooms','bathrooms','sqft_living','sqft_lot','floors', 'sqft_above', 'sqft_basement', 'waterfront', 'view', 'condition', 'grade', 'sqft_above', 'yr_built', 
+'yr_renovated', 'zipcode', 'lat', 'long', 'sqft_living15', 'sqft_lot15']
+
+X = house_df[selected_features]
+
+# %%
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+X_scaled = scaler.fit_transform(X)
+
+# %%
+y = house_df['price']
+
+# %%
+y = y.values.reshape(-1,1)
+y_scaled = scaler.fit_transform(y)
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y_scaled, test_size = 0.25)
+
+# %%
+import tensorflow.keras
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras.layers import Dense
+
+model = Sequential()
+model.add(Dense(10, input_dim = 19, activation = 'relu'))
+model.add(Dense(10, activation = 'relu'))
+model.add(Dense(1, activation = 'linear'))
+
+# %%
+model.compile(optimizer = 'adam', loss = 'mean_squared_error')
+
+# %%
+epochs_hist = model.fit(X_train, y_train, epochs = 100, batch_size = 50, verbose = 1, validation_split = 0.2)
+
+# %%
+plt.plot(epochs_hist.history['loss'])
+plt.plot(epochs_hist.history['val_loss'])
+plt.title('Model Loss Progress During Training')
+plt.ylabel('Training and Validation Loss')
+plt.xlabel('Epoch number')
+plt.legend(['Training Loss', 'Validation Loss'])
+
+# %%
+y_predict = model.predict(X_test)
+plt.plot(y_test, y_predict, "^", color = 'r')
+plt.xlabel("Model Predictions")
+plt.ylabel("True Value (ground Truth)")
+plt.title('Linear Regression Predictions')
+plt.show()
+
+# %%
+y_predict_orig = scaler.inverse_transform(y_predict)
+y_test_orig = scaler.inverse_transform(y_test)
+
+
+# %%
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+from math import sqrt
+
+RMSE = float(format(np.sqrt(mean_squared_error(y_test_orig, y_predict_orig)),'.3f'))
+MSE = mean_squared_error(y_test_orig, y_predict_orig)
+MAE = mean_absolute_error(y_test_orig, y_predict_orig)
+r2 = r2_score(y_test_orig, y_predict_orig)
+adj_r2 = 1-(1-r2)*(n-1)/(n-k-1)
+
+print('RMSE =',RMSE, '\nMSE =',MSE, '\nMAE =',MAE, '\nR2 =', r2, '\nAdjusted R2 =', adj_r2) 
+
+
+# %% [markdown]
+# **PRACTICE OPPORTUNITY #4 [OPTIONAL]:**
+# - **Change the architecture of the network to increase the coefficient of determination to at least 0.86.**  
+
+# %%
+
+
+# %% [markdown]
+# # GREAT JOB!
+
+# %% [markdown]
+# # PRACTICE OPPORTUNITIES SOLUTIONS
+
+# %% [markdown]
+# **PRACTICE OPPORTUNITY #1 SOLUTION:**
+# - **What is the average house price?**
+# - **What is the price of the cheapest house?**
+# - **What is the average number of bathrooms and bedrooms? round your answer to the lowest value**
+# - **What is the maximum number of bedrooms?**
+
+# %%
+house_df.describe()
+
+# %% [markdown]
+# **PRACTICE OPPORTUNITY #2 SOLUTION:**
+# - **Using Seaborn, plot the pairplot for the features contained in "house_df_sample"**
+# - **Explore the data and perform sanity check**
+
+# %%
+sns.pairplot(house_df_sample)
+
+# %% [markdown]
+# **PRACTICE OPPORTUNITY #3 SOLUTION:**
+# - **Change the architecture of the network by adding an additional dense layer with 200 neurons. Use "Relu" as an activation function**
+# - **How many trainable parameters does the new network has**
+
+# %%
+import tensorflow.keras
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras.layers import Dense
+
+model = Sequential()
+model.add(Dense(100, input_dim = 7, activation = 'relu'))
+model.add(Dense(100, activation='relu'))
+model.add(Dense(100, activation='relu'))
+model.add(Dense(200, activation='relu'))
+model.add(Dense(1, activation = 'linear'))
+
+model.summary()
+
+
+# %% [markdown]
+# **PRACTICE OPPORTUNITY #4 SOLUTION:**
+# - **Change the architecture of the network to increase the coefficient of determination to at least 0.86.**  
+
+# %%
+import tensorflow.keras
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras.layers import Dense
+
+model = Sequential()
+model.add(Dense(10, input_dim = 19, activation = 'relu'))
+model.add(Dense(10, activation = 'relu'))
+model.add(Dense(200, activation = 'relu'))
+model.add(Dense(200, activation = 'relu'))
+
+model.add(Dense(1, activation = 'linear'))
+
+# %%

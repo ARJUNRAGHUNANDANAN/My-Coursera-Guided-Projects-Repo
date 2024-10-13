@@ -1,0 +1,20 @@
+This project was done through Coursera Rhyme which is a cloud workspace platform used for Guided Project from Coursera Project Network
+https://www.coursera.org/projects/getting-started-rstudio
+About the Instructor :  Emmanuel Segui is a Data Scientist and instructor of Biostatistics for the Alabama College of Osteopathic Medicine.  He develops and maintains institutional dashboards, automate data reporting processes, and perform ad-hoc analyses for ACOM stakeholders, using RStudio Team. He also supports students and medical doctors in research design and statistical analysis.
+
+
+Skilled Learned / Improved: R Programming, RStudio, Posit Cloud
+
+Project Highlights & Modules
+- Install & Setup RStudio Free Version on Desktop Computer
+- Setup and Use RStudio Cloud (now called Posit Cloud IDE)
+- Learn Important Features of RStudio such as Best Practices, Settings, Work Pane Customizations, Configurations, etc.
+- Install and Load R Packages such as DT, highcharter, leaflet, etc.
+- Create Interactive Graphs, Tables, Data Visualizations using USArrest, iris, mtcars dataset. 
+- Capstone Project: Perform a set of activities as project challenge.
+  Sign in and load up Posit Cloud IDE
+  customise the layout and appearance in a specific way.
+  Install and load a set of packages.
+  Finally create a scatter plot visualisation on US Arrest database to understand trends in number of Urban Population & number of Rape Incidents. 
+
+Date of Project Completion: 2nd July 2023
