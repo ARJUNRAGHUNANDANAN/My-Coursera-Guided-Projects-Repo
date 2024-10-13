@@ -1,0 +1,20 @@
+This project was done through Coursera Rhyme which is a cloud workspace platform used for Guided Project from Coursera Project Network
+
+https://www.coursera.org/projects/data-science-streamlit-python
+
+About the Instructor:  Snehan Kekre is a Developer Advocate at Snowflake, where he specializes in the Streamlit open-source Python library. In the past, he has worked for Streamlit (pre-acquisition) as a Developer Advocate , and has authored and taught over 40+ guided projects on machine learning and data science at Coursera. He has also worked as a skills consultant at Coursera, and as content strategist at Rhyme.com.
+
+Skilled Learned / Improved: Web Development, Data Science Visualisation, Streamlit Library, Python Programming
+
+Project Highlights & Modules
+- Work with New York City Motor Vehicle Collisions Dataset.
+- Build interactive web applications with Streamlit and Python.
+- Use Pandas for data manipulation in data science workflows.
+- Load, explore, visualize and interact with data, and generate dashboards in less than 100 lines of Python code.
+- Use 3D Map layers and Histograms to answer questions like which streets cause the most collisions, what time of the day most accidents occur etc
+
+Date of Project Completion: 5th July 2023
+
+Dataset Provided: https://catalog.data.gov/dataset/motor-vehicle-collisions-crashes
+
+Library Requirements : numpy==1.16.4, pandas==0.24.2, pydeck==0.3.0, streamlit==0.57.3, plotly==4.0.0
