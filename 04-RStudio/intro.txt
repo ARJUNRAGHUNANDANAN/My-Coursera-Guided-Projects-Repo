@@ -18,3 +18,8 @@ Project Highlights & Modules
   Finally create a scatter plot visualisation on US Arrest database to understand trends in number of Urban Population & number of Rape Incidents. 
 
 Date of Project Completion: 2nd July 2023
+
+Dataset Provided: available in course resources & RStudio Inbuilt Dataframes.  https://www.kaggle.com/datasets/halimedogan/usarrests
+
+Library Requirements: pandas==1.3.0, numpy==1.19.5, seaborn==0.11.1, matplotlib==3.4.2, jupyterthemes==0.20.0, tensorflow==2.5.0, scikit-learn==0.24.2, pydot==1.4.2, graphviz==0.17
+

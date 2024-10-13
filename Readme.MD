@@ -30,7 +30,7 @@ I am keeping my Coursera Guided Projects separate from Coursera Courses & Specia
 ### 4. [Getting Started with RStudio](https://www.coursera.org/account/accomplishments/verify/RW2MRMAH9XVJ)
 - **Completed on:** 02-July-2023
 - **Offered by:** Coursera Project Network
-- Folder : No Relevant Supporting Documents
+- Folder : 04-RStudio/
 
 ### 5. [Build a Data Science Web App with StreamLit and Python](https://www.coursera.org/account/accomplishments/verify/JXGQH36658Q4)
 - **Completed on:** 05-July-2023
